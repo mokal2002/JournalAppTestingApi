@@ -19,12 +19,18 @@ public class JournalEntryService {
     @Autowired
     private UserService userService;
 
+    public JournalEntryService(JournalEntryRepo journalEntryRepo, UserService userService) {
+        this.journalEntryRepo = journalEntryRepo;
+        this.userService = userService;
+    }
+
+
     @Transactional
     public void saveEntry(JournalEntry journalEntry, String userName) {
         User user = userService.findByUserName(userName);
         JournalEntry saved = journalEntryRepo.save(journalEntry);
         user.getJournalEntries().add(saved);
-        userService.saveEntry(user);
+        userService.saveUser(user);
     }
     public void saveEntry(JournalEntry journalEntry) {
         journalEntryRepo.save(journalEntry);
@@ -38,13 +44,29 @@ public class JournalEntryService {
         return journalEntryRepo.findById(id);
     }
 
-    public void deleteEntryById(ObjectId id, String userName) {
-        User user = userService.findByUserName(userName);
-        user.getJournalEntries().removeIf(x -> x.getId().equals(id));
-        userService.saveEntry(user);
-        journalEntryRepo.deleteById(id);
+    @Transactional
+    public Boolean deleteEntryById(ObjectId id, String userName) {
+        boolean removed = false;
+        try {
+            User user = userService.findByUserName(userName);
+            removed = user.getJournalEntries().removeIf(x -> x.getId().equals(id));
+            if (removed){
+                userService.saveUser(user);
+                journalEntryRepo.deleteById(id);
+            }
+        }catch (Exception e){
+            System.out.println(e);
+            throw new RuntimeException("An error occcured while deleting the entry.",e);
+        }
+        return removed;
+
+
 
     }
+
+//    public List<JournalEntry> findByUserName(String userName){
+//        return
+//    }
 }
 
 
