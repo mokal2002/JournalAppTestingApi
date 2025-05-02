@@ -29,6 +29,7 @@ public class UserService {
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+
     public boolean saveNewUser(User user) {
         try{
             user.setPassword(passwordEncoder.encode(user.getPassword()));

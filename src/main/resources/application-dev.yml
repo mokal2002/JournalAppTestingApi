@@ -2,13 +2,42 @@ spring:
   application:
     name: journalApp
 
+
+
   data:
     mongodb:
       uri: mongodb+srv://mokalaniket29:Password2002@cluster0.boxzzom.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
       database: journaldb
       auto-index-creation: true
 
+    redis:
+      host: redis-18139.c305.ap-south-1-1.ec2.redns.redis-cloud.com
+      port: 18139
+      password: tWFtZLi6SL0pPxpGhUKfFTJQOJOpsjPd
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: mokalaniket29@gmail.com
+    password: utkyilrgechymdaf
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  logging:
+    level:
+      org.springframework.mail: DEBUG
+
+
+
 server:
   port: 8080
   servlet:
     context-path: /home
+
+weather:
+  api:
+    key: 9a0d144b583e75d4ca6e2bce607c4142

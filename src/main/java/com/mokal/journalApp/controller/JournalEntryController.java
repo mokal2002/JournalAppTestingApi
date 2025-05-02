@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +45,7 @@ public class JournalEntryController {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String userName = authentication.getName();
-            myEntry.setDate(new Date());
+            myEntry.setDate(LocalDateTime.now());
             journalEntryService.saveEntry(myEntry, userName);
             return new ResponseEntity<>(myEntry, HttpStatus.CREATED);
         } catch (Exception e){
@@ -96,7 +97,7 @@ public class JournalEntryController {
                 JournalEntry old = journalEntry.get();
                 old.setTitle(newEntry.getTitle() != null && !newEntry.getTitle().equals("") ? newEntry.getTitle() : old.getTitle());
                 old.setContent(newEntry.getContent() != null && !newEntry.getContent().equals("") ? newEntry.getContent() : old.getContent());
-                old.setDate(new Date());
+//                old.setDate(new Date());
                 journalEntryService.saveEntry(old);
                 return new ResponseEntity<>(old, HttpStatus.OK);
             }

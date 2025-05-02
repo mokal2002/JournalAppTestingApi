@@ -1,6 +1,7 @@
 package com.mokal.journalApp.controller;
 
 
+import com.mokal.journalApp.cache.AppCache;
 import com.mokal.journalApp.entity.User;
 import com.mokal.journalApp.service.UserService;
 import org.springframework.aop.target.LazyInitTargetSource;
@@ -18,6 +19,9 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AppCache appCache;
+
     @GetMapping("/all-users")
     public ResponseEntity<?> getAllUsers(){
         List<User> all = userService.getAll();
@@ -30,5 +34,9 @@ public class AdminController {
     @PostMapping("/create-admin-user")
     public void createUser(@RequestBody User user){
         userService.saveAdmin(user);
+    }
+    @GetMapping("/clear-app-cache")
+    public void clearAppCache(){
+        appCache.init();
     }
 }
