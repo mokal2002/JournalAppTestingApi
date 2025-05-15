@@ -30,6 +30,6 @@ public class JournalAppApplication {
 	}
 
 //	i am Pushing Cpde to GitHub
-//	Agin
+//	Aagin
 
 }

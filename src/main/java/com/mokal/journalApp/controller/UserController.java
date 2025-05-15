@@ -6,6 +6,9 @@ import com.mokal.journalApp.api.response.WeatherResponse;
 import com.mokal.journalApp.entity.User;
 import com.mokal.journalApp.service.UserService;
 import com.mokal.journalApp.service.WeatherService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
+@Tag(name = "User API's", description = "User API's")
 public class UserController {
 
     @Autowired
@@ -26,6 +30,7 @@ public class UserController {
     private WeatherService weatherService;
 
 
+    @Operation(summary = "Update user profile", description = "Update the authenticated user's profile information")
     @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody User user){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -38,6 +43,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @Operation(summary = "Delete user account", description = "Delete the authenticated user's account")
     @DeleteMapping
     public ResponseEntity<?> deleteUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
